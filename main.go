@@ -39,6 +39,14 @@ func main() {
 	}
 
 	for _, job := range recommends.Jobs {
-		fmt.Printf("[%s] %s\n", job.UpdatedAt.Format(time.RFC3339), job.Title)
+		fmt.Printf("[%s] %s\n", job.UpdatedAt.Format(time.RFC3339), abbr(job.Title, 40))
 	}
+}
+
+func abbr(s string, n int) string {
+	r := []rune(s)
+	if len(r) <= n {
+		return s
+	}
+	return string(r[:n-1]) + "…"
 }
