@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/mkfsn/findy-crawler/database"
@@ -90,12 +91,15 @@ func main() {
 	if err := db.List(&all); err != nil {
 		log.Fatalf("err: %s\n", err)
 	}
+
+	sort.Sort(models.ByUpdatedAt(all))
 	for _, job := range all {
-		fmt.Printf("[%s][%s](%d) %s\n",
+		fmt.Printf("[%s][%s](%d) %s (%s)\n",
 			isViewed(job.IsViewed),
 			job.UpdatedAt.Format(time.RFC3339),
 			job.Id,
-			abbr(job.Title, 50),
+			abbr(job.Title, 40),
+			fmt.Sprintf("https://findy-code.io/companies/%d/jobs/%s", job.CompanyId, job.Hash),
 		)
 	}
 
