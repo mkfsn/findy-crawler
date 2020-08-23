@@ -2,7 +2,9 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
+	"time"
 
 	"github.com/mkfsn/findy-crawler/findy/api/v1/candidate"
 )
@@ -37,6 +39,6 @@ func main() {
 	}
 
 	for _, job := range recommends.Jobs {
-		log.Printf("%s\n", job.Title)
+		fmt.Printf("[%s] %s\n", job.UpdatedAt.Format(time.RFC3339), job.Title)
 	}
 }
