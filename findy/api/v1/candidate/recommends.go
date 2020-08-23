@@ -14,8 +14,12 @@ var (
 	apiClient = &http.Client{}
 )
 
+type Job = legacy.Job
+
+type Jobs []Job
+
 type Recommends struct {
-	Jobs []legacy.Job
+	Jobs Jobs
 }
 
 func GetRecommends(setters ...Argument) (*Recommends, error) {
@@ -30,7 +34,7 @@ func GetRecommends(setters ...Argument) (*Recommends, error) {
 		return nil, err
 	}
 
-	all := &Recommends{Jobs: origin.JobList}
+	all := &Recommends{Jobs: Jobs(origin.JobList)}
 	for page++; page <= origin.Pagination.TotalPage; page++ {
 		data, err := getRecommends(page, args)
 		if err != nil {
